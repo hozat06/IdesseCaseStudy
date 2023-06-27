@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:ctrl="clr-namespace:IdesseCaseStudy.Resources.CustomControls"
+             xmlns:lang="clr-namespace:IdesseCaseStudy.Resources.Languages" 
+             x:Class="IdesseCaseStudy.Pages.PersonsPage"
+             BackgroundColor="White"
+             Title="Persons Page">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem>
+            <ToolbarItem.IconImageSource>
+                <FontImageSource Glyph="&#xf234;" Color="White" Size="16" FontFamily="Fa" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+          RowDefinitions="auto, *">
+
+        <!--Search-->
+        <Frame x:Name="frmSearch"
+               Grid.Row="0"
+               Padding="16,8" Margin="6" CornerRadius="8"
+               HasShadow="False" HeightRequest="40"
+               BorderColor="#d0d0d0">
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="&#xf002;"
+                       FontSize="24" FontFamily="Fa"
+                       TextColor="#d0d0d0"
+                       VerticalOptions="CenterAndExpand"/>
+                <ctrl:CustomEntry x:Name="textSearch" Text="{Binding Search}"
+                               Placeholder="{lang:Translate PersonPage_SearchText}" 
+                               PlaceholderColor="#d0d0d0"
+                               FontFamily="Default" FontSize="18"
+                               ClearButtonVisibility="WhileEditing" IsTextPredictionEnabled="False"
+                               BackgroundColor="Transparent"
+                               HorizontalOptions="FillAndExpand">
+
+                    <ctrl:CustomEntry.Behaviors>
+                        <xct:EventToCommandBehavior EventName="Completed" Command="{Binding SearchCommand}" />
+                    </ctrl:CustomEntry.Behaviors>
+
+                </ctrl:CustomEntry>
+
+                <Button Text="&#xf0b0;"
+                       FontSize="18" FontFamily="Fa"
+                       BackgroundColor="#fff" TextColor="#1E3050"
+                       Padding="0" Margin="0" WidthRequest="45" CornerRadius="8"
+                       HorizontalOptions="EndAndExpand"
+                       VerticalOptions="CenterAndExpand"/>
+            </StackLayout>
+
+        </Frame>
+
+        <!--List-->
+        <CollectionView x:Name="listPersons"
+                        Grid.Row="1"
+                        BackgroundColor="White" SelectionMode="None"
+                        ItemsSource="{Binding Persons}"
+                        VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never"
+                        Scrolled="ListPersons_Scrolled">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid RowDefinitions="auto, auto, auto"
+                            ColumnDefinitions="auto, *"
+                            Padding="8">
+
+                        <Ellipse Stroke="#d0d0d0"
+                                    Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"
+                                    StrokeThickness="2"
+                                    WidthRequest="75" HeightRequest="75"
+                                    VerticalOptions="CenterAndExpand"
+                                    HorizontalOptions="Start" />
+
+                        <Label Grid.Row="0" Grid.Column="1">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <FormattedString.Spans>
+                                        <Span Text="{Binding CardTitleCode}" FontSize="14" FontFamily="DefaultBold" TextColor="Black" />
+                                        <Span Text="{Binding CardName, StringFormat=' {0}'}" FontSize="14" FontFamily="DefaultBold" TextColor="Black" />
+                                        <Span Text="{Binding CardProfessionCode, StringFormat=' ({0})'}" FontSize="11" FontFamily="Defaul" TextColor="DeepSkyBlue" />
+                                    </FormattedString.Spans>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                        <Label Text="{Binding LocationName}" 
+                                FontSize="12" FontFamily="Default" TextColor="#a0a0a0"
+                                Grid.Row="1" Grid.Column="1" />
+
+                        <Label Grid.Row="2" Grid.Column="1">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <FormattedString.Spans>
+                                        <Span Text="Bu Ay: " FontSize="12" FontFamily="Default" TextColor="#a0a0a0" />
+                                        <Span Text="{Binding ThisMonthPlanCount}" FontSize="14" FontFamily="DefaultBold" TextColor="#a0a0a0" />
+                                        <Span Text="/" FontSize="12" FontFamily="Default" TextColor="#a0a0a0" />
+                                        <Span Text="{Binding ThisMonthRealizedPlanCount}" FontSize="14" FontFamily="DefaultBold" TextColor="#a0a0a0" />
+
+                                        <Span Text=" | " FontSize="12" FontFamily="Default" TextColor="#f0f0f0" />
+
+                                        <Span Text="YTD: " FontSize="12" FontFamily="Default" TextColor="#a0a0a0" />
+                                        <Span Text="{Binding YtdPlanCount}" FontSize="14" FontFamily="DefaultBold" TextColor="#a0a0a0" />
+                                        <Span Text="/" FontSize="12" FontFamily="Default" TextColor="#a0a0a0" />
+                                        <Span Text="{Binding YtdRealizedPlanCount}" FontSize="14" FontFamily="DefaultBold" TextColor="#a0a0a0" />
+
+                                        <Span Text=" | " FontSize="12" FontFamily="Default" TextColor="#f0f0f0" />
+
+                                        <Span Text="Ay Ort.: " FontSize="12" FontFamily="Default" TextColor="#a0a0a0" />
+                                        <Span Text="{Binding RealizedCountAvg}" FontSize="14" FontFamily="DefaultBold" TextColor="#a0a0a0" />
+
+                                        <Span Text=" | " FontSize="12" FontFamily="Default" TextColor="#f0f0f0" />
+
+                                        <Span Text="{Binding PropertyFrequency}" FontSize="14" FontFamily="DefaultBold" TextColor="#a0a0a0" />
+                                    </FormattedString.Spans>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <StackLayout IsVisible="{Binding IsBusy}"
+                     Grid.Row="1"
+                     Margin="16,32"
+                     VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand">
+
+            <ActivityIndicator IsRunning="True" HorizontalOptions="End" Color="#1E3050" />
+            
+        </StackLayout>
+    </Grid>
+</ContentPage>

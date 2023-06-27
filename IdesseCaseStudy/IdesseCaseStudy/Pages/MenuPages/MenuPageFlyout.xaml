@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:ctrl="clr-namespace:IdesseCaseStudy.Resources.CustomControls"
+             xmlns:img="clr-namespace:IdesseCaseStudy.Resources.Images"
+             xmlns:lang="clr-namespace:IdesseCaseStudy.Resources.Languages"
+             x:Class="IdesseCaseStudy.Pages.MenuPageFlyout"
+             Title="Menü">
+
+
+    <Grid RowDefinitions="auto, auto, auto, *"
+          BackgroundColor="White"
+          Padding="0,45,0,0">
+        <!--Logo-->
+        <Image Source="{img:ImageResource logo.png}"
+               Grid.Row="0"
+               Aspect="AspectFit" HeightRequest="50" />
+
+        <!--User-->
+        <Grid ColumnDefinitions="auto, *"
+              Grid.Row="1"
+              Margin="6" RowSpacing="0"
+              RowDefinitions="auto, auto, auto">
+
+            <Label Text="&#xf2bd;"
+                   Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"
+                   VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
+                   FontFamily="Fa" FontSize="48" TextColor="#1e3050" />
+            <Label Text="{lang:Translate Menu_Hello}"
+                   FontFamily="Default" FontSize="12"
+                   Grid.Row="0" Grid.Column="1" />
+            <Label Text="{Binding CurrentUser.FullName}"
+                   FontFamily="DefaultBold" FontSize="22"
+                   Grid.Row="1" Grid.Column="1" />
+            <Label Text="{Binding CurrentUser.PositionDescription}"
+                   FontFamily="Default" FontSize="16"
+                   Grid.Row="2" Grid.Column="1" />
+
+        </Grid>
+
+        <!--Search-->
+        <Frame x:Name="frmSearch"
+               Grid.Row="2"
+               Padding="16,8" Margin="6" CornerRadius="8"
+               HasShadow="False" HeightRequest="40"
+               BorderColor="#d0d0d0">
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="&#xf002;"
+                       FontSize="24" FontFamily="Fa"
+                       TextColor="#d0d0d0"
+                       VerticalOptions="CenterAndExpand"/>
+                <ctrl:CustomEntry x:Name="textSearch" Text="{Binding Search}"
+                               Placeholder="{lang:Translate Menu_Search}" 
+                               PlaceholderColor="#d0d0d0"
+                               FontFamily="Default" FontSize="18"
+                               ClearButtonVisibility="WhileEditing" IsTextPredictionEnabled="False"
+                               BackgroundColor="Transparent"
+                               HorizontalOptions="FillAndExpand">
+
+                    <ctrl:CustomEntry.Behaviors>
+                        <xct:EventToCommandBehavior EventName="TextChanged" Command="{Binding MenuItemSearchCommand}" />
+                    </ctrl:CustomEntry.Behaviors>
+                    
+                </ctrl:CustomEntry>
+            </StackLayout>
+
+        </Frame>
+        
+        <!--Menu List-->
+        <ListView x:Name="listMenu"
+                  ItemsSource="{Binding MenuItems}"
+                  Grid.Row="3" SeparatorVisibility="None"
+                  BackgroundColor="White"
+                  HasUnevenRows="True"
+                  ItemSelected="ListMenu_ItemSelected">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal"
+                                     BackgroundColor="White"
+                                     Padding="8,12">
+                            <StackLayout.Triggers>
+                                <DataTrigger TargetType="StackLayout" Binding="{Binding Selected}" Value="True">
+                                    <Setter Property="BackgroundColor" Value="#1E3050" />
+                                </DataTrigger>
+                            </StackLayout.Triggers>
+
+                            <Label Text="{Binding Icon}" TextColor="{Binding IconColor}"
+                                   FontSize="22" FontFamily="Fa"
+                                   VerticalOptions="Center" HorizontalOptions="Start"
+                                   HorizontalTextAlignment="Start">
+
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding Selected}" Value="True">
+                                        <Setter Property="TextColor" Value="#fff" />
+                                    </DataTrigger>
+                                </Label.Triggers>
+
+                            </Label>
+
+                            <Label Text="{Binding Title}" TextColor="{Binding IconColor}"
+                                   FontSize="22" FontFamily="Default"
+                                   VerticalOptions="Center" HorizontalOptions="FillAndExpand"
+                                   HorizontalTextAlignment="Start">
+
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding Selected}" Value="True">
+                                        <Setter Property="TextColor" Value="#fff" />
+                                        <Setter Property="FontFamily" Value="DefaultBold" />
+                                    </DataTrigger>
+                                </Label.Triggers>
+
+                            </Label>
+
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            
+        </ListView>
+
+    </Grid>
+</ContentPage>

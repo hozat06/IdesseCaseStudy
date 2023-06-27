@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:IdesseCaseStudy.ModelViews"
+             xmlns:lang="clr-namespace:IdesseCaseStudy.Resources.Languages"
+             xmlns:img="clr-namespace:IdesseCaseStudy.Resources.Images"
+             xmlns:ctrl="clr-namespace:IdesseCaseStudy.Resources.CustomControls"
+             x:Class="IdesseCaseStudy.Pages.LoginPage"
+             BackgroundColor="#d0d0d0">
+    
+    <ContentPage.BindingContext>
+        <viewModels:AccountViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+          RowDefinitions="auto, *, auto, auto"
+          Padding="32,45">
+
+        <Image x:Name="imgLogo"
+               Source="{img:ImageResource logo.png}"
+               Grid.Row="0"
+               Aspect="AspectFit" />
+
+        <Frame x:Name="frmLogin"
+               Grid.Row="1"
+               HasShadow="False"
+               BackgroundColor="White" CornerRadius="16"
+               VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">
+
+            <StackLayout Spacing="16">
+
+                <Label Text="{lang:Translate LoginPage_Title}"
+                       TextColor="Black"
+                       Margin="0,0,0,16"
+                       FontSize="24" FontFamily="DefaultBold" />
+
+                <Label Text="{lang:Translate LoginPage_Username_Title}"
+                       TextColor="#646464"
+                       FontSize="18" FontFamily="Default" />
+                <Frame x:Name="frmUsername"
+                       Padding="16,8" CornerRadius="8"
+                       HasShadow="False" HeightRequest="40"
+                       BorderColor="#d0d0d0">
+
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="&#xf0e0;"
+                               FontSize="24" FontFamily="Fa"
+                               TextColor="#d0d0d0"
+                               VerticalOptions="CenterAndExpand"/>
+                        <ctrl:CustomEntry x:Name="textUsername" Text="{Binding LoginRequest.Username}"
+                               Placeholder="{lang:Translate LoginPage_Username_Placeholder}" 
+                               PlaceholderColor="#d0d0d0"
+                               FontFamily="Default" FontSize="18"
+                               ClearButtonVisibility="WhileEditing" IsTextPredictionEnabled="False"
+                               BackgroundColor="Transparent"
+                               HorizontalOptions="FillAndExpand" />
+                    </StackLayout>
+                    
+                </Frame>
+
+                <Label Text="{lang:Translate LoginPage_Password_Title}"
+                       TextColor="#646464"
+                       FontSize="18" FontFamily="Default" />
+                <Frame x:Name="frmPassword"
+                       Padding="16,8" CornerRadius="8"
+                       HasShadow="False" HeightRequest="40"
+                       BorderColor="#d0d0d0">
+
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="&#xf023;"
+                               FontSize="24" FontFamily="Fa"
+                               TextColor="#d0d0d0"
+                               VerticalOptions="CenterAndExpand"/>
+                        <ctrl:CustomEntry x:Name="textPassword" Text="{Binding LoginRequest.Password}"
+                               Placeholder="{lang:Translate LoginPage_Password_Placeholder}" 
+                               PlaceholderColor="#d0d0d0"
+                               FontFamily="Default" FontSize="18"
+                               ClearButtonVisibility="WhileEditing" IsTextPredictionEnabled="False"
+                               IsPassword="True"
+                               BackgroundColor="Transparent"
+                               HorizontalOptions="FillAndExpand" />
+                    </StackLayout>
+
+                </Frame>
+
+                <Button x:Name="btnLogin"
+                        Text="{lang:Translate LoginPage_LoginButton}"
+                        CornerRadius="8" HeightRequest="50"
+                        FontFamily="DefaultBold" FontSize="22"
+                        TextTransform="None"
+                        TextColor="White" BackgroundColor="#FF334E"
+                        Command="{Binding LoginCommand}"/>
+
+            </StackLayout>
+            
+        </Frame>
+
+
+
+    </Grid>
+    
+</ContentPage>

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:lang="clr-namespace:IdesseCaseStudy.Resources.Languages"
+             xmlns:viewModel="clr-namespace:IdesseCaseStudy.ModelViews"
+             x:Class="IdesseCaseStudy.Pages.SettingsPage"
+             Title="{lang:Translate Menu_Item_Settings}">
+
+    <ContentPage.BindingContext>
+        <viewModel:SettingsViewModel />
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+              RowDefinitions="auto, auto, *, auto"
+              Padding="16">
+
+            <Label Text="{lang:Translate SettingsPage_Info}"
+                   FontSize="28" FontFamily="DefaultBold"
+                   Grid.Row="0"/>
+
+            <StackLayout x:Name="slLanguage"
+                         Grid.Row="1">
+
+                <Label Text="{lang:Translate SettingsPage_LanguageTitle}"
+                        FontSize="16" FontFamily="DefaultBold"/>
+                <Picker x:Name="pickerLanguage" ItemsSource="{Binding Languages}"
+                        Title="{lang:Translate SettingsPage_LanguageChoose}"
+                        SelectedItem="{Binding Language}"/>
+
+            </StackLayout>
+
+            <Button x:Name="btnSave" Text="{lang:Translate SettingsPage_Save}"
+                    FontFamily="DefaultBold" FontSize="16"
+                    Grid.Row="3"
+                    Command="{Binding SaveCommand}" />
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
